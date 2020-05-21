@@ -52,7 +52,6 @@ class Counter extends React.Component {
         let msg = this.state.isBreak ? 'Time for a Break!' : 'Time to Work!'
         if (this.state.isDone) {
             return (
-
                 <View style = {{padding: 12}}>
                     <Text style = {styles.text}>  00:00 </Text>
                     <Text style = {styles.text}>  {msg} </Text>
@@ -61,8 +60,7 @@ class Counter extends React.Component {
             )
         } else {
             return (
-            <Timer time = {this.state.rawTime} isBreak = {this.state.isBreak} workTime={this.props.workTime}
-            breakTime={this.props.breakTime}/>
+            <Timer {...this.props} time = {this.state.rawTime} isBreak = {this.state.isBreak} />
                    )
         }
     }

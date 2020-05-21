@@ -37,8 +37,8 @@ class App extends React.Component {
     this.state = {
       showTimer : false,
       showInput : false,
-      workTime : this.props.timeEdited ? this.props.inputWork : 10,
-      breakTime : this.props.timeEdited ? this.props.inputBreak : 5,
+      workTime : this.props.timeEdited ? this.props.inputWork : 25*60,
+      breakTime : this.props.timeEdited ? this.props.inputBreak : 5*60,
     }
   }
 

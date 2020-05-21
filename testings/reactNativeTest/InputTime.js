@@ -1,7 +1,7 @@
 import React from 'react'
 import {View,Text,Button,StyleSheet, TextInput } from 'react-native'
 import App from './App';
-
+import {getTime} from './Timer'
 
 const styles = StyleSheet.create ({
     Text: {
@@ -25,8 +25,8 @@ const styles = StyleSheet.create ({
 export default class InputTime extends React.Component {
 
     state = {
-        inputWork : 7,
-        inputBreak: 2,
+        inputWork : 25*60,
+        inputBreak: 5*60,
         showInput : true,
     }
 
@@ -37,12 +37,12 @@ export default class InputTime extends React.Component {
     }
     setWork(text) {
         this.setState({
-            inputWork : text
+            inputWork : Number(text)*60
         })
     }
     setBreak(text){
         this.setState({
-            inputBreak : text
+            inputBreak : Number(text)*60
         })
     }
 
@@ -52,14 +52,16 @@ export default class InputTime extends React.Component {
             return (
 
                 <View style={styles.Container}>
-                    <Text style={styles.Text}> Set working time: </Text>
+                    <Text style={styles.Text}> Set working time (minutes): </Text>
                     <TextInput style={styles.Input} value={this.state.inputWork}
                                onChangeText={text => this.setWork(text)}
-                               keyboardType = "numeric"/>
-                    <Text style={styles.Text}> Set Break Time:</Text>
+                               keyboardType = "numeric"
+                               placeholder={"Default: 25"}/>
+                    <Text style={styles.Text}> Set Break Time (minutes):</Text>
                     <TextInput style={styles.Input} value={this.state.inputBreak}
                                onChangeText={text => this.setBreak(text)}
-                               keyboardType = 'numeric'/>
+                               keyboardType = 'numeric'
+                               placeholder = {"Defult: 5"}/>
                     < Button title={'Set'} onPress={() => this.dismiss()}/>
                 </View>
             )
