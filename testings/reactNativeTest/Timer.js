@@ -24,9 +24,9 @@ class Timer extends React.Component {
         super(props);
 
         this.state = {
-            isBreak : props.isBreak,
-            rawTime : props.time,
-            time : getTime(props.time)
+            isBreak : this.props.isBreak,
+            rawTime : this.props.time,
+            time : getTime(this.props.time)
         }
     }
     componentDidMount(): * {
@@ -55,7 +55,8 @@ class Timer extends React.Component {
     render() {
         if (this.state.rawTime === 0) {
             return (
-                <Counter isDone = {true} isBreak = {this.state.isBreak}/>
+                <Counter isDone = {true} isBreak = {this.state.isBreak} workTime={this.props.workTime}
+                breakTime = {this.props.breakTime}/>
             )
         }
         return (

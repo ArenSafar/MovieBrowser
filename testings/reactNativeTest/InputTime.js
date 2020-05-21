@@ -1,5 +1,6 @@
 import React from 'react'
 import {View,Text,Button,StyleSheet, TextInput } from 'react-native'
+import App from './App';
 
 
 const styles = StyleSheet.create ({
@@ -24,30 +25,46 @@ const styles = StyleSheet.create ({
 export default class InputTime extends React.Component {
 
     state = {
-        work : 25,
-        breakTime: 5
+        inputWork : 7,
+        inputBreak: 2,
+        showInput : true,
     }
 
-    toggleShow() {
-
+    dismiss() {
+        this.setState({
+            showInput : !this.state.showInput
+        })
     }
-    setWork() {
-        this.setState({work})
+    setWork(text) {
+        this.setState({
+            inputWork : text
+        })
     }
-    setBreak() {
-        this.setState({breakTime})
+    setBreak(text){
+        this.setState({
+            inputBreak : text
+        })
     }
 
     render() {
-        return (
-            <View style={styles.Container}>
-                <Text style = {styles.Text}> Set working time: </Text>
-                <TextInput style = {styles.Input} value ={this.state.work} onChangeText = {()=> this.setWork }/>
-                <Text style = {styles.Text}> Set Break Time:</Text>
-                <TextInput style={styles.Input} value ={this.state.breakTime} onChangeText = {()=>this.setBreak}/>
-                < Button title={'Set'} onPress = {()=> this.toggleShow()}/>
-            </View>
-        )
+
+        if (this.state.showInput) {
+            return (
+
+                <View style={styles.Container}>
+                    <Text style={styles.Text}> Set working time: </Text>
+                    <TextInput style={styles.Input} value={this.state.inputWork}
+                               onChangeText={text => this.setWork(text)}
+                               keyboardType = "numeric"/>
+                    <Text style={styles.Text}> Set Break Time:</Text>
+                    <TextInput style={styles.Input} value={this.state.inputBreak}
+                               onChangeText={text => this.setBreak(text)}
+                               keyboardType = 'numeric'/>
+                    < Button title={'Set'} onPress={() => this.dismiss()}/>
+                </View>
+            )
+        }
+        return <App timeEdited={true} inputWork={this.state.inputWork} inputBreak={this.state.inputBreak}/>
     }
 }
 

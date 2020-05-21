@@ -9,7 +9,6 @@
 import React from 'react';
 import {
     StyleSheet,
-    ScrollView,
     Button,
     View,
     Text,
@@ -34,8 +33,7 @@ class Counter extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            workTime : props.workTime,
-            breakTime : props.breakTime,
+            rawTime : this.props.workTime,
             isDone : this.props.isDone,
             isBreak : this.props.isBreak,
         }
@@ -43,7 +41,7 @@ class Counter extends React.Component {
 
     changeTask() {
         this.setState({
-            rawTime: this.state.isBreak ? this.state.breakTime : this.state.workTime,
+            rawTime: this.state.isBreak ? this.props.breakTime : this.props.workTime,
             isDone: !this.state.isDone,
             isBreak : !this.state.isBreak,
         })
@@ -54,6 +52,7 @@ class Counter extends React.Component {
         let msg = this.state.isBreak ? 'Time for a Break!' : 'Time to Work!'
         if (this.state.isDone) {
             return (
+
                 <View style = {{padding: 12}}>
                     <Text style = {styles.text}>  00:00 </Text>
                     <Text style = {styles.text}>  {msg} </Text>
@@ -62,7 +61,8 @@ class Counter extends React.Component {
             )
         } else {
             return (
-            <Timer time = {this.state.rawTime} isBreak = {this.state.isBreak}/>
+            <Timer time = {this.state.rawTime} isBreak = {this.state.isBreak} workTime={this.props.workTime}
+            breakTime={this.props.breakTime}/>
                    )
         }
     }

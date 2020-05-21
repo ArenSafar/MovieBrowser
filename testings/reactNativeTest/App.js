@@ -9,11 +9,11 @@
 import React from 'react';
 import {
     StyleSheet,
-    ScrollView,
     Button,
+    Text,
     View,
-    Text, Vibration,
 } from 'react-native';
+
 import Counter from './counter'
 import InputTime from './InputTime';
 
@@ -36,9 +36,9 @@ class App extends React.Component {
     super(props);
     this.state = {
       showTimer : false,
-      showInput : props.showInput || false,
-      workTime : props.workTime !== null ? props.workTime : 25,
-      breakTime : props.breakTime !== null? props.breakTime : 5
+      showInput : false,
+      workTime : this.props.timeEdited ? this.props.inputWork : 10,
+      breakTime : this.props.timeEdited ? this.props.inputBreak : 5,
     }
   }
 
@@ -48,15 +48,15 @@ class App extends React.Component {
       })
   }
 
-    toggleInput () {
+  toggleInput () {
       this.setState({
           showInput : !this.state.showInput
       })
-    }
+}
 
   render() {
       if (this.state.showInput) {
-          return <InputTime/>
+          return <InputTime />
       }
       if (!this.state.showTimer) {
           return (
@@ -72,8 +72,9 @@ class App extends React.Component {
       } else {
           return (
           <View style = {styles.container}>
-              <Counter isBreak={true} isDone={false} workTime={this.state.workTime} breakTime={this.state.breakTime} />
-              <Button title =  {"Stop"} color = 'red' onPress = {()=> this.toggleShowTimer()}/>
+              <Counter isBreak = {true} isDone = {false}
+                    workTime = {this.state.workTime} breakTime = {this.state.breakTime}/>
+              <Button title = {"Stop"} color = 'red' onPress = {()=> this.toggleShowTimer()}/>
           </View>
           )
       }
