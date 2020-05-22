@@ -12,6 +12,7 @@ import {
     Button,
     Text,
     View,
+    Vibration
 } from 'react-native';
 
 import Counter from './counter'
@@ -19,6 +20,7 @@ import InputTime from './InputTime';
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor : '#E0E0E0',
     flex: 1,
     padding: 18,
 
@@ -42,10 +44,17 @@ class App extends React.Component {
     }
   }
 
-  toggleShowTimer() {
+  setWorkAndBreak = (work,breakTime) => {
+      this.setState({
+          workTime: work,
+          breakTime : breakTime
+      })
+  }
+  toggleShowTimer = () => {
       this.setState({
         showTimer : !this.state.showTimer
       })
+      Vibration.cancel()
   }
 
   toggleInput () {
@@ -56,16 +65,16 @@ class App extends React.Component {
 
   render() {
       if (this.state.showInput) {
-          return <InputTime />
+          return <InputTime toggleShowInput={()=>this.toggleInput()} setWorkAndBreak={this.setWorkAndBreak}/>
       }
       if (!this.state.showTimer) {
           return (
               <View style = {styles.container}>
                   <View style = {{padding: 8}}>
-                      <Button title =  {"Start"} color = 'green' onPress = {()=> this.toggleShowTimer()}/>
+                      <Button title =  {"Start"} color = '#006600' onPress = {()=> this.toggleShowTimer()}/>
                   </View>
                   <View style = {{padding: 8}}>
-                      <Button title =  {"Set Time"} onPress = {()=> this.toggleInput()}/>
+                      <Button title =  {"Set Timers"} color = '#336666' onPress = {()=> this.toggleInput()}/>
                   </View>
               </View>
           )
@@ -74,7 +83,7 @@ class App extends React.Component {
           <View style = {styles.container}>
               <Counter isBreak = {true} isDone = {false}
                     workTime = {this.state.workTime} breakTime = {this.state.breakTime}/>
-              <Button title = {"Stop"} color = 'red' onPress = {()=> this.toggleShowTimer()}/>
+              <Button title = {"Stop"} color = '#ff9900' onPress = {()=> this.toggleShowTimer()}/>
           </View>
           )
       }

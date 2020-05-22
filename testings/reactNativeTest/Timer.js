@@ -7,8 +7,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 8,
-
     },
+
     text : {
         fontSize : 40,
         marginTop: 150,
@@ -17,19 +17,27 @@ const styles = StyleSheet.create({
 })
 
 export function getTime(seconds) {
-    return Math.floor((seconds)/60)+":"+(seconds)%60+""
+
+    let min = Math.floor(seconds / 60)
+    let res = min < 10 ? "0"+min+":" : min+":"
+    let sec = (seconds) % 60
+    res = sec < 10 ? res+"0"+sec : res+sec
+    return res
 }
+
+
+
 class Timer extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {
             rawTime : this.props.time,
-            time : getTime(this.props.time)
+            time : getTime(this.props.time),
+            count : 0
         }
     }
     componentDidMount(): * {
-        this.interval = setInterval(()=> this.updateTimer(), 1000)
+        this.interval = setInterval(this.updateTimer, 1000)
     }
 
     shouldComponentUpdate(nextProps: Props, nextState: State, nextContext: *): boolean {
@@ -40,9 +48,11 @@ class Timer extends React.Component {
         clearInterval(this.interval)
     }
 
-    updateTimer() {
-        if (this.state.rawTime === 0 ) {
-            Vibration.vibrate(400,true)
+    updateTimer = () =>{
+
+        if (this.state.rawTime <= 0) {
+            Vibration.vibrate([500,200,500], true)
+            this.props.toggleDone()
         } else {
             this.setState(prevState => ({
                     rawTime: prevState.rawTime - 1,
@@ -51,12 +61,9 @@ class Timer extends React.Component {
             )
         }
     }
+
+
     render() {
-        if (this.state.rawTime === 0) {
-            return (
-                <Counter {...this.props} isDone = {true}/>
-            )
-        }
         return (
             <View>
                 <Text style = {styles.text}> {this.state.time} </Text>

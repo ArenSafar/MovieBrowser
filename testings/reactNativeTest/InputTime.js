@@ -27,30 +27,25 @@ export default class InputTime extends React.Component {
     state = {
         inputWork : 25*60,
         inputBreak: 5*60,
-        showInput : true,
     }
 
     dismiss() {
-        this.setState({
-            showInput : !this.state.showInput
-        })
+        this.props.setWorkAndBreak(this.state.inputWork,this.state.inputBreak)
+        this.props.toggleShowInput()
     }
     setWork(text) {
         this.setState({
-            inputWork : Number(text)*60
+            inputWork : parseInt(Number(text)*60,10)
         })
     }
     setBreak(text){
         this.setState({
-            inputBreak : Number(text)*60
+            inputBreak : parseInt(Number(text)*60,10)
         })
     }
 
     render() {
-
-        if (this.state.showInput) {
             return (
-
                 <View style={styles.Container}>
                     <Text style={styles.Text}> Set working time (minutes): </Text>
                     <TextInput style={styles.Input} value={this.state.inputWork}
@@ -65,8 +60,6 @@ export default class InputTime extends React.Component {
                     < Button title={'Set'} onPress={() => this.dismiss()}/>
                 </View>
             )
-        }
-        return <App timeEdited={true} inputWork={this.state.inputWork} inputBreak={this.state.inputBreak}/>
     }
 }
 

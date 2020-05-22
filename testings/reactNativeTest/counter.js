@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     },
     text : {
         fontSize : 40,
-        marginTop: 150,
+        marginTop: 100,
         textAlign : 'center',
     },
 })
@@ -39,13 +39,19 @@ class Counter extends React.Component {
         }
     }
 
-    changeTask() {
+    changeTask= ()=> {
+
         this.setState({
             rawTime: this.state.isBreak ? this.props.breakTime : this.props.workTime,
             isDone: !this.state.isDone,
             isBreak : !this.state.isBreak,
+
         })
         Vibration.cancel()
+    }
+
+    toggleDone = () => {
+        this.setState({isDone: true})
     }
 
     render(): React$Node {
@@ -53,14 +59,15 @@ class Counter extends React.Component {
         if (this.state.isDone) {
             return (
                 <View style = {{padding: 12}}>
+                    <Text style = {styles.text}>  {this.props.counter} </Text>
                     <Text style = {styles.text}>  00:00 </Text>
                     <Text style = {styles.text}>  {msg} </Text>
-                    <Button title={'OK'} color = 'green' onPress={()=> this.changeTask()}/>
+                    <Button title={'OK'} color = 'green' onPress={this.changeTask}/>
                 </View>
             )
         } else {
             return (
-            <Timer {...this.props} time = {this.state.rawTime} isBreak = {this.state.isBreak} />
+            <Timer time = {this.state.rawTime} toggleDone={this.toggleDone}/>
                    )
         }
     }
